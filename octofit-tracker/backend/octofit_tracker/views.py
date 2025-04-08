@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import User, Team, Activity, Leaderboard, Workout
 from .serializers import UserSerializer, TeamSerializer, ActivitySerializer, LeaderboardSerializer, WorkoutSerializer
+from rest_framework.decorators import api_view
 
 class UserListCreateView(APIView):
     def get(self, request):
@@ -69,11 +70,13 @@ class WorkoutListCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
 def api_root(request):
+    base_url = 'https://fluffy-broccoli-7vpjr79pqxhx6xv-8000.app.github.dev/'
     return Response({
-        'users': '/api/users/',
-        'teams': '/api/teams/',
-        'activities': '/api/activities/',
-        'leaderboard': '/api/leaderboard/',
-        'workouts': '/api/workouts/',
+        'users': base_url + 'api/users/',
+        'teams': base_url + 'api/teams/',
+        'activities': base_url + 'api/activities/',
+        'leaderboard': base_url + 'api/leaderboard/',
+        'workouts': base_url + 'api/workouts/',
     })
